@@ -16,4 +16,4 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 How to run ? 
-paste to your commanc "flutter run --no-sound-null-safety"
+paste to your command "flutter run --no-sound-null-safety"
