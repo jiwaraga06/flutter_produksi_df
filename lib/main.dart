@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_produksi/Pages/InputHasilDF/CariMesin/index.dart';
-import 'package:flutter_produksi/Pages/InputHasilDF/index.dart';
-import 'package:flutter_produksi/Pages/Login/index.dart';
+import 'package:flutter_produksi/source/router/router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp(
+    router: RouterNavigation(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final RouterNavigation? router;
+  const MyApp({Key? key, this.router}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      onGenerateRoute: router!.generateRoute,
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: InputHasilDF(),
+      // home: Login(),
     );
   }
 }

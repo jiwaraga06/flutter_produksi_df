@@ -1,8 +1,8 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_produksi/API/index.dart';
-import 'package:flutter_produksi/Model/modelCariMesin.dart';
+import 'package:flutter_produksi/source/data/Model/modelCariMesin.dart';
+import 'package:flutter_produksi/source/data/network/api.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;

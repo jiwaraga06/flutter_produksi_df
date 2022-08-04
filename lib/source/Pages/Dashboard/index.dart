@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_produksi/API/index.dart';
-import 'package:flutter_produksi/Pages/InputHasilDF/index.dart';
+import 'package:flutter_produksi/source/data/network/api.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff142850),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => InputHasilDF()));
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => InputHasilDF()));
         },
         child: const Icon(MaterialIcons.add),
       ),
