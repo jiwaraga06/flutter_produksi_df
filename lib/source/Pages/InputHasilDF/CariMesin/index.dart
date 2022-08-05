@@ -36,26 +36,28 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
       setState(() {
         var json = convert.jsonDecode(response.body);
         if (json != null) {
-          setState(() {
-            loading = false;
-          });
-          json.forEach((e) {
-            var a = {
-              "id": e['id'],
-              "nama_mesin": e['nama_mesin'],
-              "kelompok": e['kelompok'],
-              "nama_lokasi": e['nama_lokasi'],
-              "alias_msn": e['alias_msn'],
-            };
-            var b = CariMesinModel(
-                id: e['id'],
-                nama_mesin: e['nama_mesin'],
-                kelompok: e['kelompok'],
-                nama_lokasi: e['nama_lokasi'],
-                alias_msn: e['alias_msn']);
-            listMSN.add(b);
-            listMesin.add(a);
-          });
+          if (response.statusCode == 200) {
+            setState(() {
+              loading = false;
+            });
+            json.forEach((e) {
+              var a = {
+                "id": e['id'],
+                "nama_mesin": e['nama_mesin'],
+                "kelompok": e['kelompok'],
+                "nama_lokasi": e['nama_lokasi'],
+                "alias_msn": e['alias_msn'],
+              };
+              var b =
+                  CariMesinModel(id: e['id'], nama_mesin: e['nama_mesin'], kelompok: e['kelompok'], nama_lokasi: e['nama_lokasi'], alias_msn: e['alias_msn']);
+              listMSN.add(b);
+              listMesin.add(a);
+            });
+          } else {
+            setState(() {
+              loading = false;
+            });
+          }
         } else {
           setState(() {
             loading = false;
@@ -86,8 +88,7 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
     var tableItemsCount = dts.rowCount;
     var defaultRowsPerPage = PaginatedDataTable.defaultRowsPerPage;
     var isRowCountLessDefaultRowsPerPage = tableItemsCount < defaultRowsPerPage;
-    _rowsPerPage =
-        isRowCountLessDefaultRowsPerPage ? tableItemsCount : defaultRowsPerPage;
+    _rowsPerPage = isRowCountLessDefaultRowsPerPage ? tableItemsCount : defaultRowsPerPage;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,20 +101,23 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
                   },
                   child: Row(
                     children: [
-                      Icon(MaterialIcons.chevron_left,
-                          size: 27, color: Colors.black),
-                          Text('Kembali',
-                          style: GoogleFonts.poppins(
-                              fontSize: 15, fontWeight: FontWeight.w600))
+                      Icon(MaterialIcons.chevron_left, size: 27, color: Colors.black),
+                      Text('Kembali', style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600))
                     ],
                   ))),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Silahkan Cari Mesin berdasarkan ID / Nama / Alias',style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700), ),
+            child: Text(
+              'Silahkan Cari Mesin berdasarkan ID / Nama / Alias',
+              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Catatan : Kata Kunci minimal 2 karakter',style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500), ),
+            child: Text(
+              'Catatan : Kata Kunci minimal 2 karakter',
+              style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -128,14 +132,11 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
                 });
               },
               decoration: InputDecoration(
-                prefixIcon: Icon(MaterialIcons.search, size: 24),
-                  hintText:
-                      'Silahkan Masukan Kata Kunci',
+                  prefixIcon: Icon(MaterialIcons.search, size: 24),
+                  hintText: 'Silahkan Masukan Kata Kunci',
                   isDense: true, // Added this
                   contentPadding: EdgeInsets.all(15),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40.0)
-                  )),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(40.0))),
             ),
           ),
           Expanded(
@@ -146,8 +147,7 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
                   )
                 : listMesin.isEmpty
                     ? Center(
-                        child: Text('Data Tidak ditemukan',
-                            style: GoogleFonts.poppins()),
+                        child: Text('Data Tidak ditemukan', style: GoogleFonts.poppins()),
                       )
                     : ListView.builder(
                         itemCount: listMesin.length,
@@ -166,22 +166,14 @@ class _ModalCariMesinState extends State<ModalCariMesin> {
                                         onPressed: () {
                                           Navigator.pop(context, data['nama_mesin']);
                                         },
-                                        child: Text('PILIH',
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700))),
+                                        child: Text('PILIH', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w700))),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            primary: Colors.green[700],
-                                            onPrimary: Colors.green[400]),
+                                        style: ElevatedButton.styleFrom(primary: Colors.green[700], onPrimary: Colors.green[400]),
                                         onPressed: () {},
-                                        child: Text('DETAIL',
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700))),
+                                        child: Text('DETAIL', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w700))),
                                   ),
                                 ])
                               ],
@@ -222,8 +214,7 @@ class DTS extends DataTableSource {
   }
 
   @override
-  int get rowCount =>
-      isi.length; // Manipulate this to which ever value you wish
+  int get rowCount => isi.length; // Manipulate this to which ever value you wish
 
   @override
   bool get isRowCountApproximate => false;

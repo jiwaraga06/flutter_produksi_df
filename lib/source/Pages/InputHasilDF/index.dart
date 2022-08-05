@@ -1,12 +1,9 @@
-import 'dart:convert' as convert;
-import 'dart:js';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_produksi/source/Pages/InputHasilDF/CariMesin/index.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 class InputHasilDF extends StatefulWidget {
   InputHasilDF({Key? key}) : super(key: key);
@@ -59,7 +56,6 @@ class _InputHasilDFState extends State<InputHasilDF> {
         lastDate: DateTime.now(),
         builder: (context, picker) {
           return Theme(
-            //TODO: change colors
             data: ThemeData.dark().copyWith(
               colorScheme: ColorScheme.light(
                 primary: Colors.white,
@@ -84,143 +80,6 @@ class _InputHasilDFState extends State<InputHasilDF> {
     });
   }
 
-  void showMyDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.teal[50],
-          title: const Text('Pilih JO'),
-          content: SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 4.5,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          height: 40,
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: DropdownButton(
-                            underline: SizedBox(),
-                            value: valueTipe,
-                            isExpanded: true,
-                            hint: Text('-- Tipe --'),
-                            items: tipe.map((value) {
-                              return DropdownMenuItem(child: Text(value['name']), value: value['value']);
-                            }).toList(),
-                            onChanged: (value) {
-                              print(value);
-                              setState(() {
-                                valueTipe = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          height: 40,
-                          padding: const EdgeInsets.all(8),
-                          margin: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: DropdownButton(
-                            underline: SizedBox(),
-                            value: valueTahun,
-                            isExpanded: true,
-                            hint: Text('-- Tahun --'),
-                            items: tahun.map((value) {
-                              return DropdownMenuItem(child: Text(value['name']), value: value['value']);
-                            }).toList(),
-                            onChanged: (value) {
-                              print(value);
-                              setState(() {
-                                valueTahun = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                          flex: 4,
-                          child: Container(
-                            height: 40,
-                            padding: const EdgeInsets.all(8),
-                            margin: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: DropdownSearch(
-                              validator: (v) => v == null ? "required field" : null,
-                              enabled: true,
-                              items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
-                              onChanged: print,
-                              onBeforeChange: (a, b) {
-                                if (b == null) {
-                                  AlertDialog alert = AlertDialog(
-                                    title: Text("Are you sure..."),
-                                    content: Text("...you want to clear the selection"),
-                                    actions: [
-                                      TextButton(
-                                        child: Text("OK"),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(true);
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text("NOT OK"),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                      ),
-                                    ],
-                                  );
-
-                                  return showDialog<bool>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return alert;
-                                      });
-                                }
-
-                                return Future.value(true);
-                              },
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Tutup'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -230,16 +89,8 @@ class _InputHasilDFState extends State<InputHasilDF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1B366D),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(MaterialIcons.chevron_left, color: Colors.white, size: 23)),
-        title: Text(
-          'Hasil Produksi Dyeing Finishing',
-          style: GoogleFonts.poppins(fontSize: 16),
-        ),
+        elevation: 0.0,
+        title: Text('Hasil Produksi Dyeing Finishing'),
       ),
       body: ListView(
         children: [
@@ -294,13 +145,13 @@ class _InputHasilDFState extends State<InputHasilDF> {
                             child: InkWell(
                               onTap: () async {
                                 // var res = ModalCariMesin();
-                                // final res = await Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => ModalCariMesin()),
-                                // );
-                                // setState(() {
-                                //   valuePilihMesin = TextEditingController(text: res == null ? '' : '$res');
-                                // });
+                                final res = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ModalCariMesin()),
+                                );
+                                setState(() {
+                                  valuePilihMesin = TextEditingController(text: res == null ? '' : '$res');
+                                });
                               },
                               child: TextFormField(
                                 controller: valuePilihMesin,
@@ -549,6 +400,141 @@ class _InputHasilDFState extends State<InputHasilDF> {
         icon: const Icon(Icons.add),
         backgroundColor: Colors.teal,
       ),
+    );
+  }
+
+  void showMyDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.teal[50],
+          title: const Text('Pilih JO'),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width / 1.5,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 4.5,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          height: 40,
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: DropdownButton(
+                            underline: SizedBox(),
+                            value: valueTipe,
+                            isExpanded: true,
+                            hint: Text('-- Tipe --'),
+                            items: tipe.map((value) {
+                              return DropdownMenuItem(child: Text(value['name']), value: value['value']);
+                            }).toList(),
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                valueTipe = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                          height: 40,
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: DropdownButton(
+                            underline: SizedBox(),
+                            value: valueTahun,
+                            isExpanded: true,
+                            hint: Text('-- Tahun --'),
+                            items: tahun.map((value) {
+                              return DropdownMenuItem(child: Text(value['name']), value: value['value']);
+                            }).toList(),
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                valueTahun = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 4,
+                          child: Container(
+                            height: 40,
+                            padding: const EdgeInsets.all(8),
+                            margin: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: DropdownSearch(
+                              validator: (v) => v == null ? "required field" : null,
+                              enabled: true,
+                              items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
+                              onChanged: print,
+                              onBeforeChange: (a, b) {
+                                if (b == null) {
+                                  AlertDialog alert = AlertDialog(
+                                    title: Text("Are you sure..."),
+                                    content: Text("...you want to clear the selection"),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("OK"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("NOT OK"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                  return showDialog<bool>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return alert;
+                                      });
+                                }
+                                return Future.value(true);
+                              },
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tutup'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

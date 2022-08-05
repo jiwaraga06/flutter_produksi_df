@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_produksi/source/Pages/Dashboard/index.dart';
+import 'package:flutter_produksi/source/Pages/HasilDf/index.dart';
 import 'package:flutter_produksi/source/Pages/Home/index.dart';
 import 'package:flutter_produksi/source/Pages/InputHasilDF/index.dart';
 import 'package:flutter_produksi/source/Pages/List_JO/index.dart';
@@ -101,6 +102,23 @@ class RouterNavigation {
           pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
             create: (context) => DfCubit(myRepository: myRepository),
             child: ListJO(),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.easeOutCubic;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        );
+      case HASIL_DF:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+            create: (context) => DfCubit(myRepository: myRepository),
+            child: HasilDf(),
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(0.0, 1.0);

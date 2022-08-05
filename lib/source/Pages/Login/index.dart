@@ -1,11 +1,7 @@
-import 'dart:convert';
-import 'dart:ui';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_produksi/source/data/cubit/df_cubit.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,39 +12,19 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-enum AuthLogin { signIn, noSignIn }
-
 class _LoginState extends State<Login> {
-  AuthLogin _authLogin = AuthLogin.noSignIn;
   final formGlobalKey = GlobalKey<FormState>();
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
   var showPassword = true;
-
   void showPass() {
     showPassword = !showPassword;
   }
 
-  void saveEmail(String email) async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('email', email);
-  }
-
-  var email;
-  void getEmail() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      email = pref.getString('email');
-      print(email);
-
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
-      _authLogin = email != null ? AuthLogin.signIn : AuthLogin.noSignIn;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
+  void login(context) {
+    if (formGlobalKey.currentState!.validate()) {
+      BlocProvider.of<DfCubit>(context).login(controllerEmail.text, controllerPassword.text, context);
+    }
   }
 
   @override
@@ -71,6 +47,9 @@ class _LoginState extends State<Login> {
           }
           if (state is LoginLoaded) {
             Navigator.of(context).pop();
+          }
+          if (state is LoginMessageError) {
+            CoolAlert.show(context: context, type: CoolAlertType.error, title: state.message, text: "Silahkan cek Email dan Password Anda");
           }
         },
         child: ListView(
@@ -142,7 +121,7 @@ class _LoginState extends State<Login> {
                                                     filled: true,
                                                     prefixIcon: const Icon(MaterialIcons.email, size: 25, color: Color(0xff142850)),
                                                     border: OutlineInputBorder(borderSide: BorderSide.none),
-                                                    errorStyle: TextStyle(fontSize: 17),
+                                                    errorStyle: TextStyle(fontSize: 14),
                                                   ),
                                                   validator: (value) {
                                                     if (value == null || value.isEmpty) {
@@ -192,7 +171,7 @@ class _LoginState extends State<Login> {
                                                           color: Color(0xff142850)),
                                                     ),
                                                     border: OutlineInputBorder(borderSide: BorderSide.none),
-                                                    errorStyle: TextStyle(fontSize: 17),
+                                                    errorStyle: TextStyle(fontSize: 14),
                                                   ),
                                                   validator: (value) {
                                                     if (value == null || value.isEmpty) {
@@ -215,7 +194,7 @@ class _LoginState extends State<Login> {
                                             style: ElevatedButton.styleFrom(
                                                 padding: const EdgeInsets.all(8), elevation: 6.0, primary: Color(0xff142850), onPrimary: Colors.blue[100]),
                                             onPressed: () {
-                                              BlocProvider.of<DfCubit>(context).login(controllerEmail.text, controllerPassword.text, context);
+                                              login(context);
                                             },
                                             child: const Text(
                                               'LOGIN',

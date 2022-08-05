@@ -38,6 +38,8 @@ class DfCubit extends Cubit<DfState> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('email', json['email']);
         Navigator.pushReplacementNamed(context, HOME);
+      } else {
+        emit(LoginMessageError(message: json['textCode']));
       }
     });
   }

@@ -15,6 +15,10 @@ class LoginLoaded extends DfState {}
 
 class LoginMessageSuccess extends DfState {}
 
-class LoginMessageError extends DfState {}
+class LoginMessageError extends DfState {
+  final String? message;
+
+  LoginMessageError({this.message});
+}
 
 class LoginError extends DfState {}

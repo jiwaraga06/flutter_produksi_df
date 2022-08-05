@@ -4,3 +4,4 @@ const DASHBOARD ="/dashbord";
 const HOME ="/home";
 const INPUT_HASIL_DF ="/inputhasildf";
 const LIST_JO ="/listjo";
+const HASIL_DF = "/hasildf";

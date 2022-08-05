@@ -1,13 +1,7 @@
-import 'dart:html';
-import 'dart:ui';
-
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_produksi/source/router/string.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -18,11 +12,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Color color = const Color(0xFF1B366D);
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +29,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(20),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            crossAxisCount: 2,
+            crossAxisCount: 4,
             children: [
               Container(
                 decoration: BoxDecoration(
@@ -72,13 +61,35 @@ class _HomeState extends State<Home> {
                   elevation: 4.0,
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, LIST_JO);
+                      Navigator.pushNamed(context, HASIL_DF);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(FontAwesome.clipboard, color: Color(0xFF598585), size: 40),
+                        Text('Hasil DF', style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.normal)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  elevation: 4.0,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, INPUT_HASIL_DF);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(MaterialCommunityIcons.clipboard, color: Color(0xFF598585), size: 40),
-                    Text('Job Order', style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.normal)),
+                        Text('Input Hasil Dyeing Finishing', style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),
